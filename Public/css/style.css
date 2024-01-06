@@ -1,0 +1,169 @@
+:root {
+    --main-gutter: 12px;
+    --main-position: center;
+    --main-lh: 1.5;
+
+    --Arial-sans-serif: Arial, sans-serif;
+    --main-green: #20e026;
+    --sub-green: #23c529;
+    --custom-border-radius: 15px;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+.rounded-image {
+    border-radius: var(--custom-border-radius);
+}
+
+body {
+    padding-top: 100px;
+    /* padding-bottom: 200px; */
+    background-color: rgb(245, 245, 245);
+    overflow-wrap: break-word;
+}
+
+#new-thread-textarea {
+	width: 690px;
+	height: 200px;
+}
+
+#reply-textarea {
+	width: 690px;
+	height: 100px;
+}
+
+#upload_file {
+    background-color: #fafafa; /* 背景色 */
+    /* color: white; 文字色 */
+    padding: 0px 20px; /* パディング */
+    text-align: center; /* 文字のアライメント */
+    text-decoration: none; /* 文字装飾 */
+    display: inline-block; /* ボタンの表示方法 */
+    font-size: 14px; /* フォントサイズ */
+    font-family: var(--Arial-sans-serif); /* フォント */
+    margin: 7px 2px; /* 外側の余白 */
+    cursor: pointer; /* カーソル */
+    border: 1px solid rgb(193, 193, 193); /* ボーダーなし */
+    border-radius: var(--custom-border-radius); /* 50pxの角丸 */
+}
+
+#upload_file:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+#upload_file_reply {
+    background-color: #fafafa; /* 背景色 */
+    /* color: white; 文字色 */
+    padding: 5px 25px; /* パディング */
+    text-align: center; /* 文字のアライメント */
+    text-decoration: none; /* 文字装飾 */
+    display: inline-block; /* ボタンの表示方法 */
+    font-size: 20px; /* フォントサイズ */
+    font-family: var(--Arial-sans-serif); /* フォント */
+    margin: 0px 0px; /* 外側の余白 */
+    cursor: pointer; /* カーソル */
+    border: 1px solid rgb(193, 193, 193); /* ボーダーなし */
+    border-radius: var(--custom-border-radius); /* 50pxの角丸 */
+}
+
+#upload_file_none {
+    display: none;
+}
+
+#post-button {
+    background-color: var(--main-green);
+    color: white; /* 文字色 */
+    padding: 5px 25px; /* パディング */
+    text-align: center; /* 文字のアライメント */
+    text-decoration: none; /* 文字装飾 */
+    display: inline-block; /* ボタンの表示方法 */
+    font-size: 20px; /* フォントサイズ */
+    font-family: var(--Arial-sans-serif); /* フォント */
+    margin: 2px 0px; /* 外側の余白 */
+    cursor: pointer; /* カーソル */
+    border: none; /* ボーダーなし */
+    border-radius: var(--custom-border-radius); /* 50pxの角丸 */
+}
+
+#post-button:hover {
+    background-color: var(--sub-green);
+}
+
+.bg-green {
+    background-color: var(--main-green);
+}
+
+.custom-border {
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: var(--custom-border-radius);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 影を追加 */
+}
+
+.custom-border-top {
+    border-top: 1px solid rgb(219, 219, 219);
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+
+.fixed-reply-area {
+    position: fixed; /* 固定位置にする */
+    bottom: 8px; /* 画面の下に固定 */
+    background-color: #ffffff; /* 背景色を設定 */
+    padding: 10px; /* 必要に応じてパディングを設定 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* 影を追加 */
+    z-index: 1000; /* 表示順序を設定 */
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.responsive-new-thread {
+    display: block;
+}
+
+.responsive-plus {
+    display: none;
+}
+
+.responsive-home {
+    display: block;
+}
+
+.responsive-table {
+    display: none;
+}
+
+@media (max-width: 767px){
+    .responsive-new-thread {
+        display: none;
+    }
+    
+    .responsive-plus {
+        display: block;
+    }
+    
+    .responsive-home {
+        display: none;
+    }
+    
+    .responsive-table {
+        display: block;
+    }
+
+    #new-thread-textarea {
+        width: 350px;
+        height: 200px;
+    }
+    #reply-textarea {
+        width: 350px;
+        height: 100px;
+    }
+}
