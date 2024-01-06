@@ -1,0 +1,19 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Commands\\": "Commands/",
+            "Database\\": "Database/",
+            "Exceptions\\": "Exceptions/",
+            "Helpers\\": "Helpers/",
+            "Models\\": "Models/",
+            "Public\\": "Public/",
+            "Response\\": "Response/",
+            "Routing\\": "Routing/",
+            "Types\\": "Types/",
+            "Views\\": "Views/"
+        }
+    },
+    "require": {
+        "fakerphp/faker": "^1.23"
+    }
+}
