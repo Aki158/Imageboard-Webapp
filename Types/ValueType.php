@@ -7,4 +7,8 @@ enum ValueType: string
     case INT = 'int';
     case FLOAT = 'float';
     case DATE = 'date'; // YYYY-MM-DD string
+
+    case FILE = 'file'; // メディアファイル
+
+    case NULL = 'null'; // メディアファイル
 }

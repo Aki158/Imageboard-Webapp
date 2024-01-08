@@ -1,8 +1,4 @@
 :root {
-    --main-gutter: 12px;
-    --main-position: center;
-    --main-lh: 1.5;
-
     --Arial-sans-serif: Arial, sans-serif;
     --main-green: #20e026;
     --sub-green: #23c529;
@@ -19,17 +15,16 @@ p {
 
 body {
     padding-top: 100px;
-    /* padding-bottom: 200px; */
     background-color: rgb(245, 245, 245);
     overflow-wrap: break-word;
 }
 
-#new-thread-textarea {
+#new_thread_textarea {
 	width: 690px;
 	height: 200px;
 }
 
-#reply-textarea {
+#reply_textarea {
 	width: 690px;
 	height: 100px;
 }
@@ -72,7 +67,7 @@ body {
     display: none;
 }
 
-#post-button {
+#post_button {
     background-color: var(--main-green);
     color: white; /* 文字色 */
     padding: 5px 25px; /* パディング */
@@ -87,7 +82,7 @@ body {
     border-radius: var(--custom-border-radius); /* 50pxの角丸 */
 }
 
-#post-button:hover {
+#post_button:hover {
     background-color: var(--sub-green);
 }
 
@@ -158,11 +153,11 @@ body {
         display: block;
     }
 
-    #new-thread-textarea {
+    #new_thread_textarea {
         width: 350px;
         height: 200px;
     }
-    #reply-textarea {
+    #reply_textarea {
         width: 350px;
         height: 100px;
     }

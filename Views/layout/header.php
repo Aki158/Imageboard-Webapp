@@ -1,14 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b5fd11547c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../Public/css/style.css">
 
-    <title>My Computer Parts Store</title>
+    <title>Imageboard Webapp</title>
+    <div class="fixed-header bg-green">
+        <div class="container d-flex justify-content-between">
+            <h3 class="py-3 text-light">Imageboard Webapp</h3>
+            <div class="d-flex justify-content-between">
+                <a href="newThread" class="responsive-new-thread btn btn-light m-3"><i class="fa-solid fa-plus"></i> ポスト</a>
+                <a href="newThread" class="responsive-plus btn btn-light m-3"><i class="fa-solid fa-plus"></i></a>
+                <a href="home" class="responsive-home btn btn-light m-3"><i class="fa-solid fa-house"></i> ホーム</a>
+                <a href="home" class="responsive-table btn btn-light m-3"><i class="fa-solid fa-table"></i> </a>
+            </div>
+        </div>
+    </div>
 </head>
 <body>
-<main class="container mt-5 mb-5">
+<main>
