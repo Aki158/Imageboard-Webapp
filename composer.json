@@ -5,10 +5,12 @@
             "Database\\": "Database/",
             "Exceptions\\": "Exceptions/",
             "Helpers\\": "Helpers/",
+            "Images\\": "Images/",
             "Models\\": "Models/",
             "Public\\": "Public/",
             "Response\\": "Response/",
             "Routing\\": "Routing/",
+            "Thumbnails\\": "Thumbnails/",
             "Types\\": "Types/",
             "Views\\": "Views/"
         }
