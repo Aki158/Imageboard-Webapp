@@ -1,6 +1,62 @@
 <div class="container my-3">
     <div class="row justify-content-center">
         <div class="col-md-7">
+            <!-- <p>スレッドの返信数が上限に到達しました!</p>
+            <p>これ以上返信はできません。</p> -->
+            <div class="custom-border bg-white">
+                <div>
+                    <div class="m-3">
+                        <p><i class="fa-regular fa-comments"></i> <?= count($posts['replies']) ?> &nbsp;&nbsp; <i class="fa-regular fa-clock"></i> <?= $posts['thread']->getTimeStamp()->getCreatedAt() ?></p>
+                    </div>
+                    <div class="m-3">
+                        <h5><?= $posts['thread']->getSubject() ?></h5>
+                    </div>
+                    <div class="m-3">
+                        <?= $posts['thread']->getContent() ?>
+                    </div>
+                    <div class="m-3">
+                        <a href="../<?= $posts['thread']->getImagePath() ?>">
+                            <img src="../<?= $posts['thread']->getThumbnailPath() ?>" alt="画像は表示できませんでした" class="rounded-image">
+                        </a>
+                    </div>
+                </div>
+                
+                <div id="replies_list"></div>
+            </div>
+
+            <div class="custom-border bg-white fixed-reply-area">
+                <div class="mx-3 mt-3 mb-1 d-flex">
+                    <p>コメント&nbsp;&nbsp;</p>
+                    <p id="reply_comment_count" class="text-secondary">0/400</p>
+                </div>
+                <div class="mx-3 my-1">
+                    <textarea id="reply_textarea" name="message" placeholder="コメントを入力してください" minlength="1" maxlength="400" onkeyup="ShowLength('reply_comment_count', value, 400);"></textarea>
+                </div>
+                <div class="mx-3 d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <button id="reply_upload_file" onclick="imageSelect('reply_upload_file_none')"><i class="fa-solid fa-image"></i> 画像</button>
+                        <input type="file" id="reply_upload_file_none" accept=".jpg, .jpeg, .png, .gif">
+                        <p id="reply_image_select_message" class="p-3"></p>
+                    </div>
+                    <div class="p-1">
+                        <button class="post-button" onclick="postData('reply', <?= $posts['thread']->getPostId() ?>,'', 'reply_textarea', 'reply_upload_file_none')">ポストする</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const replies = <?php echo json_encode($posts['replies']); ?>;
+</script>
+<script src="../Public/js/app_thread.js"></script>
+<script src="../../Public/js/app.js"></script>
+
+<!-- もったいないからバックアップ -->
+<!-- <div class="container my-3">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
             <p>スレッドの返信数が上限に到達しました!</p>
             <p>これ以上返信はできません。</p>
             <div class="custom-border bg-white">
@@ -79,17 +135,15 @@
                 </div>
                 <div class="mx-3 d-flex justify-content-between">
                     <div class="d-flex align-items-center">
-                        <button id="upload_file_reply"><i class="fa-solid fa-image"></i> 画像</button>
+                        <button id="reply_upload_file"><i class="fa-solid fa-image"></i> 画像</button>
                         <input type="file" id="upload_file_none" accept=".jpg, .jpeg, .png, .gif">
                         <p class="p-3"><i class="fa-solid fa-check"></i></p>
                     </div>
                     <div class="p-1">
-                        <button id="post_button" onclick="postData()">返信する</button>
+                        <button id="post-button" onclick="postData()">返信する</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<script src="../Public/js/app_thread.js"></script>
+</div> -->

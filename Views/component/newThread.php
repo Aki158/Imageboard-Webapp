@@ -18,12 +18,12 @@
                     <textarea id="new_thread_textarea" name="message" placeholder="入力してください" minlength="1" maxlength="400" onkeyup="ShowLength('comment_count', value, 400);"></textarea>
                 </div>
                 <div class="mx-3 d-flex">
-                    <button id="upload_file"><i class="fa-solid fa-image"></i> 画像</button>
+                    <button id="upload_file" onclick="imageSelect('upload_file_none')"><i class="fa-solid fa-image"></i> 画像</button>
                     <input type="file" id="upload_file_none" accept=".jpg, .jpeg, .png, .gif">
                     <p id="image_select_message" class="p-3"> ファイルを選択してください</p>
                 </div>
                 <div class="mx-3 mt-2 mb-4">
-                    <button id="post_button" onclick="postData()">ポストする</button>
+                    <button class="post-button" onclick="postData('thread', 0, 'title', 'new_thread_textarea', 'upload_file_none')">ポストする</button>
                 </div>
             </div>
         </div>
@@ -31,3 +31,4 @@
 </div>
 
 <script src="../../Public/js/app_newThread.js"></script>
+<script src="../../Public/js/app.js"></script>

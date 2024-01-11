@@ -106,13 +106,13 @@ class PostDAOImpl implements PostDAO
 
         return $results === null ? [] : $this->resultsToPosts($results);        
     }
+    
     private function resultsToPosts(array $results): array{
         $posts = [];
 
         foreach($results as $result){
             $posts[] = $this->resultToPost($result);
         }
-
         return $posts;
     }
 
@@ -128,4 +128,13 @@ class PostDAOImpl implements PostDAO
             timeStamp: new DataTimeStamp($data['created_at'], $data['updated_at'])
         );
     }
+
+    public function getThread(string $url): ?Post{
+        $mysqli = DatabaseManager::getMysqliConnection();
+
+        $post = $mysqli->prepareAndFetchAll("SELECT * FROM Post WHERE url = ?",'s',[$url])[0]??null;
+
+        return $post === null ? null : $this->resultToPost($post);
+    }
+
 }

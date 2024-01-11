@@ -22,10 +22,6 @@ class HTMLRenderer implements HTTPRenderer
 
     public function getContent(): string {
         $viewPath = $this->getViewPath($this->viewFile);
-        // debug_start
-        // print("viewPath : ".$viewPath."<br>");
-        // print("data : ".$this->data['part']['name']."<br>");
-        // debug_end
 
         if (!file_exists($viewPath)) {
             throw new \Exception("View file {$viewPath} does not exist.");

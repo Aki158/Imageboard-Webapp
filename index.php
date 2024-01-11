@@ -18,6 +18,11 @@ $routes = include('Routing/routes.php');
 // リクエストURIからパスだけを解析して取得します
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = ltrim($path, '/');
+$prefix = 'thread';
+
+if (substr($path, 0, strlen($prefix)) === $prefix) {
+    $path = $prefix;
+}
 
 // パスがルートに存在するかチェックします
 if (isset($routes[$path])) {
