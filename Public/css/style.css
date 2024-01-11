@@ -48,7 +48,7 @@ body {
     background-color: rgb(233, 233, 233);
 }
 
-#upload_file_reply {
+#reply_upload_file {
     background-color: #fafafa; /* 背景色 */
     /* color: white; 文字色 */
     padding: 5px 25px; /* パディング */
@@ -67,7 +67,11 @@ body {
     display: none;
 }
 
-#post_button {
+#reply_upload_file_none {
+    display: none;
+}
+
+.post-button {
     background-color: var(--main-green);
     color: white; /* 文字色 */
     padding: 5px 25px; /* パディング */
@@ -82,7 +86,7 @@ body {
     border-radius: var(--custom-border-radius); /* 50pxの角丸 */
 }
 
-#post_button:hover {
+.post-button:hover {
     background-color: var(--sub-green);
 }
 

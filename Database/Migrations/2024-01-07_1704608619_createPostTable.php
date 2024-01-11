@@ -16,7 +16,7 @@ class createPostTable implements SchemaMigration
                 content TEXT,
                 image_path VARCHAR(255),
                 thumbnail_path VARCHAR(255),
-                url VARCHAR(255) NOT NULL,
+                url VARCHAR(255),
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )"
