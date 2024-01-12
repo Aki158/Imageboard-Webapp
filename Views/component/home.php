@@ -1,4 +1,13 @@
-<div class="container my-3">
+<div id="home_posts_list"></div>
+
+<script>
+    const posts = <?php echo json_encode($posts); ?>;
+</script>
+<script src="../Public/js/app_home.js"></script>
+<script src="../Public/js/app.js"></script>
+
+<!-- もったいないからバックアップ -->
+<!-- <div class="container my-3">
     <div class="row justify-content-center">
         <div class="col-md-7">
             <div class="custom-border bg-white">
@@ -133,6 +142,4 @@
             </div>
         </div>
     </div>
-</div>
-
-<script src="../Public/js/app_home.js"></script>
+</div> -->

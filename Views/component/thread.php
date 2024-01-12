@@ -9,10 +9,10 @@
                         <p><i class="fa-regular fa-comments"></i> <?= count($posts['replies']) ?> &nbsp;&nbsp; <i class="fa-regular fa-clock"></i> <?= $posts['thread']->getTimeStamp()->getCreatedAt() ?></p>
                     </div>
                     <div class="m-3">
-                        <h5><?= $posts['thread']->getSubject() ?></h5>
+                        <h5><?= htmlspecialchars($posts['thread']->getSubject()) ?></h5>
                     </div>
                     <div class="m-3">
-                        <?= $posts['thread']->getContent() ?>
+                        <p><?= nl2br(htmlspecialchars($posts['thread']->getContent()))?></p>
                     </div>
                     <div class="m-3">
                         <a href="../<?= $posts['thread']->getImagePath() ?>">
@@ -51,7 +51,7 @@
     const replies = <?php echo json_encode($posts['replies']); ?>;
 </script>
 <script src="../Public/js/app_thread.js"></script>
-<script src="../../Public/js/app.js"></script>
+<script src="../Public/js/app.js"></script>
 
 <!-- もったいないからバックアップ -->
 <!-- <div class="container my-3">
