@@ -103,7 +103,7 @@ return [
 
         foreach($replies as $reply){
             $repliesData[] = [
-                "content" => $reply->getContent(),
+                "content" => nl2br(htmlspecialchars($reply->getContent())),
                 "image_path" => $reply->getImagePath(),
                 "thumbnail_path" => $reply->getThumbnailPath(),
                 "created_at" => $reply->getTimeStamp()->getCreatedAt()
@@ -117,7 +117,43 @@ return [
 
         return new HTMLRenderer('component/thread', ['posts'=>$posts]);
     },
+    'home' => function(): HTMLRenderer {
+        $postDao = new PostDAOImpl();
+        $threads = $postDao->getAllThreads(0, 100);
+        $threadsData = [];
+        $replies = null;
+        $repliesData = [];
 
+        for($i = 0; $i < count($threads); $i++){
+            $replies = $postDao->getReplies($threads[$i], 0, 100);
+            $repliyNum = count($replies) < 5 ? count($replies) : 5;
+            $threadsData[] = [
+                "count" => count($replies),
+                "subject" => htmlspecialchars($threads[$i]->getSubject()),
+                "content" => nl2br(htmlspecialchars($threads[$i]->getContent())),
+                "image_path" => $threads[$i]->getImagePath(),
+                "thumbnail_path" => $threads[$i]->getThumbnailPath(),
+                "url" => $threads[$i]->getUrl(),
+                "created_at" => $threads[$i]->getTimeStamp()->getCreatedAt()                
+            ];
+
+            for($j = 0; $j < $repliyNum; $j++){
+                $repliesData[$i][$j] = [
+                    "content" => nl2br(htmlspecialchars($replies[$j]->getContent())),
+                    "image_path" => $replies[$j]->getImagePath(),
+                    "thumbnail_path" => $replies[$j]->getThumbnailPath(),
+                    "created_at" => $replies[$j]->getTimeStamp()->getCreatedAt()
+                ];
+            }
+        }
+
+        $posts = [
+            "threads" => $threadsData,
+            "replies" => $repliesData
+        ];
+
+        return new HTMLRenderer('component/home', ['posts'=>$posts]);
+    },
 
     // 'random/part'=>function(): HTTPRenderer{
     //     $partDao = new ComputerPartDAOImpl();

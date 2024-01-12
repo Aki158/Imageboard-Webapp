@@ -84,7 +84,7 @@ class PostDAOImpl implements PostDAO
     public function getAllThreads(int $offset, int $limit): array{
         $mysqli = DatabaseManager::getMysqliConnection();
 
-        $query = "SELECT * FROM Post WHERE reply_to_id IS NOT NULL LIMIT ?, ?";
+        $query = "SELECT * FROM Post WHERE reply_to_id IS NULL LIMIT ?, ?";
 
         $results = $mysqli->prepareAndFetchAll($query, 'ii', [$offset, $limit]);
 
