@@ -9,6 +9,16 @@ use Models\DataTimeStamp;
 
 class PostDAOImpl implements PostDAO
 {
+    private ?int $post_id = null;
+
+    public function getCreateOrUpdateId(): ?int {
+        return $this->post_id;
+    }
+
+    public function setCreateOrUpdateId(int $id): void {
+        $this->post_id = $id;
+    }
+
     public function create(Post $postData): bool
     {
         if($postData->getPostId() !== null) throw new \Exception('Cannot create a post with an existing ID. id: ' . $postData->getPostId());
@@ -69,8 +79,12 @@ class PostDAOImpl implements PostDAO
         // insert_id returns the last inserted ID.
         if($postData->getPostId() === null){
             $postData->setPostId($mysqli->insert_id);
+            $this->setCreateOrUpdateId($mysqli->insert_id);
             $timeStamp = $postData->getTimeStamp()??new DataTimeStamp(date('Y-m-h'), date('Y-m-h'));
             $postData->setTimeStamp($timeStamp);
+        }
+        else{
+            $this->setCreateOrUpdateId($postData->getPostId());
         }
 
         return true;
@@ -133,6 +147,14 @@ class PostDAOImpl implements PostDAO
         $mysqli = DatabaseManager::getMysqliConnection();
 
         $post = $mysqli->prepareAndFetchAll("SELECT * FROM Post WHERE url = ?",'s',[$url])[0]??null;
+
+        return $post === null ? null : $this->resultToPost($post);
+    }
+
+    public function getReply(string $postId): ?Post{
+        $mysqli = DatabaseManager::getMysqliConnection();
+
+        $post = $mysqli->prepareAndFetchAll("SELECT * FROM Post WHERE post_id = ?",'s',[$postId])[0]??null;
 
         return $post === null ? null : $this->resultToPost($post);
     }

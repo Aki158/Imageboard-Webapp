@@ -6,6 +6,7 @@
             "Exceptions\\": "Exceptions/",
             "Helpers\\": "Helpers/",
             "Images\\": "Images/",
+            "WebSocket\\": "WebSocket",
             "Models\\": "Models/",
             "Public\\": "Public/",
             "Response\\": "Response/",
@@ -16,6 +17,7 @@
         }
     },
     "require": {
-        "fakerphp/faker": "^1.23"
+        "fakerphp/faker": "^1.23",
+        "cboden/ratchet": "^0.4.4"
     }
 }
