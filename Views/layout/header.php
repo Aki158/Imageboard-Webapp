@@ -7,10 +7,10 @@
     <script src="https://kit.fontawesome.com/b5fd11547c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../Public/css/style.css">
 
-    <title>Imageboard Webapp</title>
+    <title>PixaThread</title>
     <div class="fixed-header bg-green">
         <div class="container d-flex justify-content-between">
-            <h3 class="py-3 text-light">Imageboard Webapp</h3>
+            <h3 class="py-3 text-light">PixaThread</h3>
             <div class="d-flex justify-content-between">
                 <a href="../newThread" class="responsive-new-thread btn btn-light m-3"><i class="fa-solid fa-plus"></i> ポスト</a>
                 <a href="../newThread" class="responsive-plus btn btn-light m-3"><i class="fa-solid fa-plus"></i></a>

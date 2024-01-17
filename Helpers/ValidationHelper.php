@@ -73,24 +73,24 @@ class ValidationHelper
         }
 
         $imageDirPath = Generations::directory(["Images", date('Y'), date('m'), date('d')]);
-        $image_path = $imageDirPath . "/im_" . $postFileName . "." . $fileExtension;
+        $imagePath = $imageDirPath . "/im_" . $postFileName . "." . $fileExtension;
         
         // ファイルを移動する
-        if(!move_uploaded_file($fileTmpPath, $image_path)) {
+        if(!move_uploaded_file($fileTmpPath, $imagePath)) {
             throw new \InvalidArgumentException("ファイルの移動中にエラーが発生しました。\n開発者に問い合わせてください。");
         }
 
         $thumbnailDirPath = Generations::directory(["Thumbnails", date('Y'), date('m'), date('d')]);
-        $thumbnail_path = $thumbnailDirPath . "/th_" .  $postFileName . "." . $fileExtension;
+        $thumbnailPath = $thumbnailDirPath . "/th_" .  $postFileName . "." . $fileExtension;
 
         // $image_pathのファイルを、exec関数を使用してサムネイルに変換する
         $output=null;
         $retval=null;
         if($fileExtension !== 'gif'){
-            $command = sprintf("convert %s -resize 300x300! %s", $image_path, $thumbnail_path);
+            $command = sprintf("convert %s -resize 300x300! %s", $imagePath, $thumbnailPath);
         }
         else{
-            $command = sprintf("convert %s[0] -resize 300x300! %s", $image_path, $thumbnail_path);
+            $command = sprintf("convert %s[0] -resize 300x300! %s", $imagePath, $thumbnailPath);
         }
 
         exec($command, $output, $retval);
@@ -100,8 +100,8 @@ class ValidationHelper
         }
 
         $filePaths = [
-            'image_path' => $image_path,
-            'thumbnail_path' => $thumbnail_path
+            'image_path' => $imagePath,
+            'thumbnail_path' => $thumbnailPath
         ];
         return $filePaths;
     }
