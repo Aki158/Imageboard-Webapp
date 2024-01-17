@@ -20,12 +20,12 @@ body {
 }
 
 #new_thread_textarea {
-	width: 690px;
+	width: 100%;
 	height: 200px;
 }
 
 #reply_textarea {
-	width: 690px;
+    width: 100%;
 	height: 100px;
 }
 
@@ -116,12 +116,14 @@ body {
 .fixed-reply-area {
     position: fixed; /* 固定位置にする */
     bottom: 8px; /* 画面の下に固定 */
-    background-color: #ffffff; /* 背景色を設定 */
-    padding: 10px; /* 必要に応じてパディングを設定 */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* 影を追加 */
+    /* background-color: #ffffff; 背景色を設定 */
     z-index: 1000; /* 表示順序を設定 */
-    max-height: 280px;
+    max-height: 300px;
     overflow-y: auto;
+}
+
+.box-shadow {
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* 影を追加 */
 }
 
 .responsive-new-thread {
@@ -155,14 +157,5 @@ body {
     
     .responsive-table {
         display: block;
-    }
-
-    #new_thread_textarea {
-        width: 350px;
-        height: 200px;
-    }
-    #reply_textarea {
-        width: 350px;
-        height: 100px;
     }
 }

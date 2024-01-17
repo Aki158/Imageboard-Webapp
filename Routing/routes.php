@@ -96,7 +96,6 @@ return [
                 throw new Exception('Invalid request method!');
             }
 
-            $subject = $_POST['subject'];
             $content = $_POST['content'];
             $file = $_FILES['file'];
             $required_fields = [
@@ -136,7 +135,21 @@ return [
                 throw new Exception('Database update failed!');
             }
 
-            return new JSONRenderer(['status' => 'success', 'message' => 'Post updated successfully']);
+            $postId = $postDao->getCreateOrUpdateId();
+
+            if(isset($postId)){
+                $reply = $postDao->getReply($postId);
+            }
+
+            $replyData = [
+                "count" => 0,
+                "content" => nl2br(htmlspecialchars($reply->getContent())),
+                "image_path" => $reply->getImagePath(),
+                "thumbnail_path" => $reply->getThumbnailPath(),
+                "created_at" => $reply->getTimeStamp()->getCreatedAt()
+            ];
+
+            return new JSONRenderer(['status' => 'success', 'message' => $replyData]);
         } catch (\InvalidArgumentException $e) {
             error_log($e->getMessage()); // エラーログはPHPのログやstdoutから見ることができます。
             return new JSONRenderer(['status' => 'error', 'message' => $e->getMessage()]);

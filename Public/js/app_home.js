@@ -24,21 +24,19 @@ function renderpostList(thread, replies, postsList){
         <div class="row justify-content-center">
             <div class="col-md-7">
                 <div class="custom-border bg-white">
-                    <div>
-                        <div class="m-3">
-                            <p><i class="fa-regular fa-comments"></i> ${thread.count} &nbsp;&nbsp; <i class="fa-regular fa-clock"></i> ${thread.created_at}</p>
-                        </div>
-                        <div class="m-3">
-                            <h5>${thread.subject}</h5>
-                        </div>
-                        <div class="m-3">
-                            <p>${thread.content}</p>
-                        </div>
-                        <div class="m-3">
-                            <a href="../${thread.image_path}">
-                                <img src="../${thread.thumbnail_path}" alt="画像を表示できませんでした" class="rounded-image">
-                            </a>
-                        </div>
+                    <div class="m-3">
+                        <p><i class="fa-regular fa-comments"></i> ${thread.count} &nbsp;&nbsp; <i class="fa-regular fa-clock"></i> ${thread.created_at}</p>
+                    </div>
+                    <div class="m-3">
+                        <h5>${thread.subject}</h5>
+                    </div>
+                    <div class="m-3">
+                        <p>${thread.content}</p>
+                    </div>
+                    <div class="m-3">
+                        <a href="../${thread.image_path}">
+                            <img src="../${thread.thumbnail_path}" alt="画像を表示できませんでした" class="rounded-image">
+                        </a>
                     </div>
                     ${message}
                     <div class="custom-border-top">
