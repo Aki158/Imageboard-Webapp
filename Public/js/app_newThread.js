@@ -5,10 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // デフォルトのフォーム送信を防止します
         event.preventDefault();
 
-        const uploadFile = document.getElementById('upload_file_none');
         // FormDataオブジェクトを作成し、コンストラクタにフォームを渡してすべての入力値を取得します
         const formData = new FormData(form);
-        formData.append('file', uploadFile.files[0]);
 
         // fetchリクエストを送信します
         fetch('/form/create/thread', {
@@ -20,9 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // サーバからのレスポンスデータを処理します
                 if (data.status === 'success') {
                     // 成功メッセージを表示したり、リダイレクトしたり、コンソールにログを出力する可能性があります
-                    console.log(data.message);
                     alert('ポストできました!');
-
                     threadFormDataClear();
                 } else if (data.status === 'error') {
                     // ユーザーにエラーメッセージを表示します
@@ -33,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch((error) => {
                 // ネットワークエラーかJSONの解析エラー
                 console.error('Error:', error);
-                alert('エラーが発生しました。もう一度試してください。'+error);
+                alert('エラーが発生しました。\nもう一度試してください。\n'+error);
             });
     });
 });

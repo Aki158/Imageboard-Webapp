@@ -9,29 +9,30 @@ class ValidationHelper
 {
     public static function string($value): string
     {
-        return is_string($value) ? $value : throw new \InvalidArgumentException("The provided value is not a valid string.");
+        return is_string($value) ? $value : throw new \InvalidArgumentException("入力は、有効な文字列ではありません。");
     }
 
     public static function integer($value, float $min = -INF, float $max = INF): int
     {
-        // PHPには、データを検証する組み込み関数があります。詳細は https://www.php.net/manual/en/filter.filters.validate.php を参照ください。
+        // PHPには、データを検証する組み込み関数があります。
+        // 詳細は https://www.php.net/manual/en/filter.filters.validate.php を参照ください。
         $value = filter_var($value, FILTER_VALIDATE_INT, ["min_range" => (int) $min, "max_range"=>(int) $max]);
 
         // 結果がfalseの場合、フィルターは失敗したことになります。
-        if ($value === false) throw new \InvalidArgumentException("The provided value is not a valid integer.");
+        if ($value === false) throw new \InvalidArgumentException("入力は、有効な数字ではありません。");
 
         // 値がすべてのチェックをパスしたら、そのまま返します。
         return $value;
     }
 
-    public static function validateDate(string $date, string $format = 'Y-m-d'): string
+    public static function validateDate(string $date, string $format = 'Y-m-d H:i:s'): string
     {
         $d = \DateTime::createFromFormat($format, $date);
         if ($d && $d->format($format) === $date) {
             return $date;
         }
 
-        throw new \InvalidArgumentException(sprintf("Invalid date format for %s. Required format: %s", $date, $format));
+        throw new \InvalidArgumentException(sprintf("%s の日付形式は無効です。\n必須の日付形式: %s", $date, $format));
     }
 
     public static function validateFile(array $file): array
@@ -85,7 +86,13 @@ class ValidationHelper
         // $image_pathのファイルを、exec関数を使用してサムネイルに変換する
         $output=null;
         $retval=null;
-        $command = sprintf("convert %s -resize 300x300! %s", $image_path, $thumbnail_path);
+        if($fileExtension !== 'gif'){
+            $command = sprintf("convert %s -resize 300x300! %s", $image_path, $thumbnail_path);
+        }
+        else{
+            $command = sprintf("convert %s[0] -resize 300x300! %s", $image_path, $thumbnail_path);
+        }
+
         exec($command, $output, $retval);
 
         if((int)$retval) {
@@ -99,44 +106,58 @@ class ValidationHelper
         return $filePaths;
     }
 
-    public static function validateFields(array $fields, array $postData, array $fileData): array
+    public static function validateFields(array $fields, array $postData, array $fileData, string $postType): array
     {
         $validatedData = [];
+        $errorMessage = '';
 
         foreach ($fields as $field => $type) {
             $data = $field !== 'file' ? $postData : $fileData;
+            $validateFlag = false;
 
-            if ($type !== ValueType::NULL && (!isset($data[$field]) || ($data)[$field] === '')) {
-                if($field === 'content'){
-                    throw new \InvalidArgumentException("コメントが入力されていません。\nコメントは1文字以上400文字以内で入力してください。");
+            if ($type !== ValueType::NULL) {
+                if($field === 'subject' && mb_strlen($data[$field]) >= 50){
+                    throw new \InvalidArgumentException("タイトルは、50文字以内で入力してください");
                 }
-                else if($field === 'file'){
-                    throw new \InvalidArgumentException("ファイルがアップロードされていません。\nファイルは、選択されているか確認してください。");
+                else if($field === 'content' && ($data[$field] === '' || mb_strlen($data[$field]) >= 400)){
+                    $errorMessage .= "・コメント : 1~400文字で入力してください\n";
+                    $validateFlag = true;
                 }
-                else{
-                    throw new \InvalidArgumentException("Missing field: $field");
+                else if($field === 'file' && $data[$field]['name'] === ''){
+                    $errorMessage .= "・画像 : 選択されているか確認してください\n";
+                    $validateFlag = true;
                 }
             }
 
-            $value = $data[$field];
+            if($validateFlag === false) {
+                $value = $data[$field];
+                $validatedValue = match ($type) {
+                    ValueType::STRING => self::string($value),
+                    ValueType::INT => self::integer($value),
+                    ValueType::FLOAT => filter_var($value, FILTER_VALIDATE_FLOAT),
+                    ValueType::DATE => self::validateDate($value),
+                    ValueType::FILE => self::validateFile($value),
+                    ValueType::NULL => null,
+                    default => throw new \InvalidArgumentException(sprintf("フィールド: %s, 型: %s は無効です。\n開発者に問い合わせてください。", $field, $type)),
+                };
 
-            $validatedValue = match ($type) {
-                ValueType::STRING => self::string($value),
-                ValueType::INT => self::integer($value), // You can further customize this method if needed
-                ValueType::FLOAT => filter_var($value, FILTER_VALIDATE_FLOAT),
-                ValueType::DATE => self::validateDate($value),
-                ValueType::FILE => self::validateFile($value),
-                ValueType::NULL => null,
-                default => throw new \InvalidArgumentException(sprintf("Invalid type for field: %s, with type %s", $field, $type)),
-            };
+                if ($validatedValue === false) {
+                    throw new \InvalidArgumentException(sprintf("入力した値は無効です: %s\nREADMEを確認してください\n解決しない場合は、開発者に問い合わせてください。", $field));
+                }
 
-            if ($validatedValue === false) {
-                throw new \InvalidArgumentException(sprintf("Invalid value for field: %s", $field));
+                $validatedData[$field] = $validatedValue;
             }
-
-            $validatedData[$field] = $validatedValue;
         }
 
+        if($errorMessage !== ''){
+            if($postType === "thread"){
+                $errorMessage = "コメントと画像の入力は必須です !\n".$errorMessage;
+            }
+            else if($postType === "reply"){
+                $errorMessage = "コメントと画像どちらかの入力は必須です !\n".$errorMessage;
+            }
+            throw new \InvalidArgumentException($errorMessage);
+        }
         return $validatedData;
     }
 }

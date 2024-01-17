@@ -39,7 +39,7 @@
                         <div class="mx-3 d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 <button id="reply_upload_file" type="button" onclick="imageSelect('reply_upload_file_none')"><i class="fa-solid fa-image"></i> 画像</button>
-                                <input type="file" id="reply_upload_file_none" accept=".jpg, .jpeg, .png, .gif">
+                                <input type="file" id="reply_upload_file_none" accept=".jpg, .jpeg, .png, .gif" name="file">
                                 <p id="reply_image_select_message" class="p-3"></p>
                             </div>
                             <div class="p-1">

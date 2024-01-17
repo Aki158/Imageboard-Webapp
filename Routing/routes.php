@@ -35,7 +35,7 @@ return [
             $postDao = new PostDAOImpl();
 
             // 入力に対する単純なバリデーション。実際のシナリオでは、要件を満たす完全なバリデーションが必要になることがあります。
-            $validatedData = ValidationHelper::validateFields($required_fields, $_POST, $_FILES);
+            $validatedData = ValidationHelper::validateFields($required_fields, $_POST, $_FILES, "thread");
 
             // 名前付き引数を持つ新しいPostオブジェクトの作成
             $post = new Post(null, null, $validatedData['subject'], $validatedData['content'], $validatedData['file']['image_path'], $validatedData['file']['thumbnail_path'], Generations::url(hash("sha1",date("Y-m-d H:i:s"))));
@@ -63,7 +63,6 @@ return [
         $host = $_SERVER['HTTP_HOST'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $url = $protocol.$host.$uri;
-        $url = ValidationHelper::string($url);
         $postDao = new PostDAOImpl();
         $thread = $postDao->getThread($url);
         $replies = null;
@@ -97,7 +96,7 @@ return [
             }
 
             $content = $_POST['content'];
-            $file = $_FILES['file'];
+            $filename = $_FILES['file']['name'];
             $required_fields = [
                 'postId' => ValueType::INT,
                 'content' => ValueType::STRING,
@@ -105,19 +104,19 @@ return [
             ];
 
             // スレッドへの返信は、contentとfileのどちらかの入力が必須
-            // contentがnullまたは空文字 かつ fileがnullでない
-            if((!isset($content) || $content === '') && isset($file)){
+            // contentが空文字 かつ filenameが空文字でない
+            if($content === '' && $filename !== ''){
                 $required_fields['content'] = ValueType::NULL;
             }
-            // contentがnullでないまたは空文字でない かつ fileがnull
-            else if((isset($content) || $content !== '') && !isset($file)){
+            // contentが空文字でない かつ filenameが空文字
+            else if($content !== '' && $filename === ''){
                 $required_fields['file'] = ValueType::NULL;
             }
 
             $postDao = new PostDAOImpl();
 
             // 入力に対する単純なバリデーション。実際のシナリオでは、要件を満たす完全なバリデーションが必要になることがあります。
-            $validatedData = ValidationHelper::validateFields($required_fields, $_POST, $_FILES);
+            $validatedData = ValidationHelper::validateFields($required_fields, $_POST, $_FILES, "reply");
 
             // 名前付き引数を持つ新しいPostオブジェクトの作成
             if($required_fields['file'] === ValueType::NULL){
