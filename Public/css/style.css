@@ -1,7 +1,7 @@
 :root {
     --Arial-sans-serif: Arial, sans-serif;
-    --main-green: #20e026;
-    --sub-green: #23c529;
+    --main-green: #21ecf3;
+    --sub-green: #21c9f3;
     --custom-border-radius: 15px;
 }
 
@@ -30,18 +30,17 @@ body {
 }
 
 #upload_file {
-    background-color: #fafafa; /* 背景色 */
-    /* color: white; 文字色 */
-    padding: 0px 20px; /* パディング */
-    text-align: center; /* 文字のアライメント */
-    text-decoration: none; /* 文字装飾 */
-    display: inline-block; /* ボタンの表示方法 */
-    font-size: 14px; /* フォントサイズ */
-    font-family: var(--Arial-sans-serif); /* フォント */
-    margin: 7px 2px; /* 外側の余白 */
-    cursor: pointer; /* カーソル */
-    border: 1px solid rgb(193, 193, 193); /* ボーダーなし */
-    border-radius: var(--custom-border-radius); /* 50pxの角丸 */
+    background-color: #fafafa;
+    padding: 0px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-family: var(--Arial-sans-serif);
+    margin: 7px 2px;
+    cursor: pointer;
+    border: 1px solid rgb(193, 193, 193);
+    border-radius: var(--custom-border-radius);
 }
 
 #upload_file:hover {
@@ -49,18 +48,17 @@ body {
 }
 
 #reply_upload_file {
-    background-color: #fafafa; /* 背景色 */
-    /* color: white; 文字色 */
-    padding: 5px 25px; /* パディング */
-    text-align: center; /* 文字のアライメント */
-    text-decoration: none; /* 文字装飾 */
-    display: inline-block; /* ボタンの表示方法 */
-    font-size: 20px; /* フォントサイズ */
-    font-family: var(--Arial-sans-serif); /* フォント */
-    margin: 0px 0px; /* 外側の余白 */
-    cursor: pointer; /* カーソル */
-    border: 1px solid rgb(193, 193, 193); /* ボーダーなし */
-    border-radius: var(--custom-border-radius); /* 50pxの角丸 */
+    background-color: #fafafa;
+    padding: 5px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-family: var(--Arial-sans-serif);
+    margin: 0px 0px;
+    cursor: pointer;
+    border: 1px solid rgb(193, 193, 193);
+    border-radius: var(--custom-border-radius);
 }
 
 #upload_file_none {
@@ -73,17 +71,17 @@ body {
 
 .post-button {
     background-color: var(--main-green);
-    color: white; /* 文字色 */
-    padding: 5px 25px; /* パディング */
-    text-align: center; /* 文字のアライメント */
-    text-decoration: none; /* 文字装飾 */
-    display: inline-block; /* ボタンの表示方法 */
-    font-size: 20px; /* フォントサイズ */
-    font-family: var(--Arial-sans-serif); /* フォント */
-    margin: 2px 0px; /* 外側の余白 */
-    cursor: pointer; /* カーソル */
-    border: none; /* ボーダーなし */
-    border-radius: var(--custom-border-radius); /* 50pxの角丸 */
+    color: white;
+    padding: 5px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-family: var(--Arial-sans-serif);
+    margin: 2px 0px;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--custom-border-radius);
 }
 
 .post-button:hover {
@@ -97,7 +95,7 @@ body {
 .custom-border {
     border: 1px solid rgb(219, 219, 219);
     border-radius: var(--custom-border-radius);
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 影を追加 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .custom-border-top {
@@ -114,16 +112,15 @@ body {
 }
 
 .fixed-reply-area {
-    position: fixed; /* 固定位置にする */
-    bottom: 8px; /* 画面の下に固定 */
-    /* background-color: #ffffff; 背景色を設定 */
-    z-index: 1000; /* 表示順序を設定 */
+    position: fixed;
+    bottom: 8px;
+    z-index: 1000;
     max-height: 300px;
     overflow-y: auto;
 }
 
 .box-shadow {
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* 影を追加 */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .responsive-new-thread {
