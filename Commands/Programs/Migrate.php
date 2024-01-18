@@ -8,8 +8,6 @@ use Database\MySQLWrapper;
 
 class Migrate extends AbstractCommand
 {
-    // ★ php console migrate
-    // ★ php console migrate --init
     // コマンド名を設定します
     protected static ?string $alias = 'migrate';
 
@@ -68,25 +66,8 @@ class Migrate extends AbstractCommand
         $allMigrations = $this->getAllMigrationFiles();
         $startIndex = ($lastMigration) ? array_search($lastMigration, $allMigrations) + 1 : 0;
         
-        // debug_start
-        // print("lastMigration : ".$lastMigration."\n");
-        // print("startIndex : ".$startIndex."\n");
-        // print("count(allMigrations) : ".count($allMigrations)."\n");
-        // debug_end
-
         for ($i = $startIndex; $i < count($allMigrations); $i++) {
             $filename = $allMigrations[$i];
-
-            // debug_start
-            // print("filename : ".$filename."\n");
-
-            // if (file_exists($filename)) {
-            //     echo "ファイルが存在します。\n";
-            // } else {
-            //     echo "ファイルが存在しません。\n";
-            // }
-            // debug_end
-
 
             // まだインクルードされていない場合、ファイルをインクルードします
             include_once($filename);
@@ -136,23 +117,10 @@ class Migrate extends AbstractCommand
         $directory = sprintf("%s/../../Database/Migrations", __DIR__);
         $this->log($directory);
 
-        // debug_start
-        // print("directory : ".$directory."\n");
-        // if (file_exists($directory)) {
-        //     echo "ディレクトリが存在します。\n";
-        // } else {
-        //     echo "ディレクトリが存在しません。\n";
-        // }
-        // debug_end
-
         // globはワイルドカード文字列を引数として渡すと、一致する"globbing pathnames"をすべて返すLinuxのシステムコールです。
         // これはワイルドカードに一致するすべてのファイルを意味します。詳細は https://man7.org/linux/man-pages/man7/glob.7.html を参照してください。
         $allFiles = glob($directory . "/*.php");
         
-        // debug_start
-        // print("allFiles : ".count($allFiles)."\n");
-        // debug_end
-
         usort($allFiles, function ($a, $b) use ($order) {
             $compareResult = strcmp($a, $b);
             return ($order === 'desc') ? -$compareResult : $compareResult;
@@ -165,14 +133,7 @@ class Migrate extends AbstractCommand
     {
         $mysqli = new MySQLWrapper();
         
-        // debug_start
-        // print("count_queries : ".count($queries)."\n");
-        // debug_end
-
         foreach ($queries as $query) {
-            // debug_start
-            // print("query : ".$query."\n");
-            // debug_end
             $result = $mysqli->query($query);
             if ($result === false) throw new \Exception(sprintf("Query {%s} failed.", $query));
             else $this->log('Ran query: ' . $query);

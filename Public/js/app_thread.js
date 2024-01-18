@@ -1,8 +1,10 @@
+const threadBody = document.getElementById("thread_body");
 const repliesList = document.getElementById("replies_list");
 const jumpBottom = document.getElementById('jumpBottom');
 const inputFile = document.getElementById('reply_upload_file_none');
 const body = document.body;
 const replyLimit = 100;
+const threadId = posts.thread.post_id+"";
 var replyCount = 0;
 var connStatus = false;
 var replyUserFlag = false;
@@ -23,10 +25,11 @@ window.addEventListener('scroll', function() {
 });
 
 window.addEventListener("load", (event) => {
-    // フォームの幅を設定
-    adjustWidth();
+    replyCount = Object.keys(posts.replies).length;
 
-    replyCount = Object.keys(replies).length;
+    adjustWidth();
+    replyFormDataClear();
+    renderThreadList(replyCount, posts.thread, threadBody);
 
     // 返信数が上限(返信数:100)に到達した場合
     if(replyCount >= replyLimit){
@@ -34,7 +37,7 @@ window.addEventListener("load", (event) => {
     }
 
     for (var i = 0; i < replyCount; i++) {
-        renderList(i+1, replies[i], repliesList);
+        renderReplyList(i+1, posts.replies[i], repliesList);
     }
 });
 
@@ -60,13 +63,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     replyFormDataClear();
                     publish(data.message);
                 } else if (data.status === 'error') {
-                    console.error(data.message);
+                    console.error('Error:\n'+data.message);
                     alert(data.message);
                 }
             })
             .catch((error) => {
                 // ネットワークエラーかJSONの解析エラー
-                console.error('Error:', error);
+                console.error('Error:\n'+error);
                 alert('エラーが発生しました。\nもう一度試してください。\n'+error);
             });
     });
@@ -105,10 +108,16 @@ function connect(){
 
                 // dataはreplyに関係するデータです
                 // 引数はそれぞれ、conn.publish(threadId, data);の引数に紐付いています
-                // topic = threadId;
-                // data = data;
-                renderList(data.count, data, repliesList);
                 replyCount = data.count;
+                renderThreadList(replyCount, posts.thread, threadBody);
+                renderReplyList(data.count, data, repliesList);
+
+                if(data.count >= replyLimit){
+                    replyReachedLimit();
+                    if(replyUserFlag){
+                        scrollToBottom();
+                    }
+                }
 
                 // replyしたユーザーだけ自動的にページの最下部にスクロールする
                 if(replyUserFlag || scrollStatus){
@@ -116,12 +125,8 @@ function connect(){
                     replyUserFlag = false;
                 }
                 else{
-                    // 「新しいメッセージがあります↓」と表示したい
+                    // 「新しいメッセージがあります↓」と表示する
                     jumpBottom.style.display = "block";
-                }
-
-                if(data.count >= replyLimit){
-                    replyReachedLimit();
                 }
             });
         },
@@ -132,8 +137,27 @@ function connect(){
     );
 }
 
+function renderThreadList(replyCount, thread, threadBody){
+    threadBody.innerHTML = `
+    <div class="m-3">
+        <p><i class="fa-regular fa-comments"></i> ${replyCount} &nbsp;&nbsp; <i class="fa-regular fa-clock"></i> ${thread.created_at}</p>
+    </div>
+    <div class="m-3">
+        <h5>${thread.subject}</h5>
+    </div>
+    <div class="m-3">
+        <p>${thread.content}</p>
+    </div>
+    <div class="m-3">
+        <a href="../${thread.image_path}">
+        <img src="../${thread.thumbnail_path}" alt="画像を表示できませんでした" class="rounded-image">
+        </a>
+    </div>
+    `;
+}
+
 // replyデータをページにレンダリングする
-function renderList(index, reply, repliesList){
+function renderReplyList(index, reply, repliesList){
     repliesList.innerHTML += `
     <div class="custom-border-top">
         <div class="m-3">
@@ -174,9 +198,6 @@ function replyReachedLimit(){
 
     // フォーム用に確保していた領域をなくします
     body.style.paddingBottom = '0px';
-
-    // ページの最下部にスクロールします
-    scrollToBottom();
 }
 
 // ページの最下部にスクロールする
@@ -209,6 +230,7 @@ function replyFormDataClear(){
     document.getElementById('reply_image_select_message').innerHTML = '';
 }
 
+// フォームの幅を設定
 function adjustWidth() {
     var parent = document.querySelector('.col-md-7'); // 親要素を選択
     var parentStyle = window.getComputedStyle(parent);

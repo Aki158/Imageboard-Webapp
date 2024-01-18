@@ -1,9 +1,5 @@
 <?php
 set_include_path(get_include_path() . PATH_SEPARATOR . realpath(__DIR__ . '/..'));
-spl_autoload_extensions(".php");
-spl_autoload_register();
-
-$DEBUG = true;
 
 // composerの依存関係のオートロード
 require_once 'vendor/autoload.php';
@@ -41,7 +37,6 @@ if (isset($routes[$path])) {
                 // ヘッダーの設定が失敗した場合のログを取るか、または処理します
                 // エラー処理に応じて、例外を投げるか、またはデフォルトで続行するかもしれません
                 http_response_code(500);
-                if($DEBUG) print("Failed setting header - original: '$value', sanitized: '$sanitized_value'");
                 exit;
             }
 
@@ -51,7 +46,6 @@ if (isset($routes[$path])) {
     catch (Exception $e){
         http_response_code(500);
         print("Internal error, please contact the admin.<br>");
-        if($DEBUG) print($e->getMessage());
     }
 } else {
     // ルートが一致しない場合は、404エラーを表示します

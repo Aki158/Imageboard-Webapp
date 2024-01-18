@@ -1,22 +1,18 @@
 :root {
     --Arial-sans-serif: Arial, sans-serif;
-    --main-green: #21ecf3;
-    --sub-green: #21c9f3;
+    --main-blue: #21ecf3;
+    --sub-blue: #21c9f3;
     --custom-border-radius: 15px;
-}
-
-p {
-    margin-bottom: 0;
-}
-
-.rounded-image {
-    border-radius: var(--custom-border-radius);
 }
 
 body {
     padding-top: 100px;
     background-color: rgb(245, 245, 245);
     overflow-wrap: break-word;
+}
+
+p {
+    margin-bottom: 0;
 }
 
 #new_thread_textarea {
@@ -69,8 +65,12 @@ body {
     display: none;
 }
 
+.rounded-image {
+    border-radius: var(--custom-border-radius);
+}
+
 .post-button {
-    background-color: var(--main-green);
+    background-color: var(--main-blue);
     color: white;
     padding: 5px 25px;
     text-align: center;
@@ -85,17 +85,17 @@ body {
 }
 
 .post-button:hover {
-    background-color: var(--sub-green);
+    background-color: var(--sub-blue);
 }
 
-.bg-green {
-    background-color: var(--main-green);
+.bg-blue {
+    background-color: var(--main-blue);
 }
 
 .custom-border {
     border: 1px solid rgb(219, 219, 219);
     border-radius: var(--custom-border-radius);
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .custom-border-top {
@@ -115,12 +115,8 @@ body {
     position: fixed;
     bottom: 8px;
     z-index: 1000;
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
-}
-
-.box-shadow {
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .responsive-new-thread {

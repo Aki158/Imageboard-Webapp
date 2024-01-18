@@ -2,39 +2,23 @@
     <div class="row justify-content-center">
         <div class="col-md-7">
             <div class="custom-border bg-white">
-                <div class="m-3">
-                    <p><i class="fa-regular fa-comments"></i> <?= count($posts['replies']) ?> &nbsp;&nbsp; <i class="fa-regular fa-clock"></i> <?= $posts['thread']->getTimeStamp()->getCreatedAt() ?></p>
-                </div>
-                <div class="m-3">
-                    <h5><?= htmlspecialchars($posts['thread']->getSubject()) ?></h5>
-                </div>
-                <div class="m-3">
-                    <p><?= nl2br(htmlspecialchars($posts['thread']->getContent()))?></p>
-                </div>
-                <div class="m-3">
-                    <a href="../<?= $posts['thread']->getImagePath() ?>">
-                        <img src="../<?= $posts['thread']->getThumbnailPath() ?>" alt="画像は表示できませんでした" class="rounded-image">
-                    </a>
-                </div>
-                
+                <div id="thread_body"></div>
                 <div id="replies_list"></div>
             </div>
             
             <p id="lastMessage" class="mx-3 mt-3" display="none"></p>
 
             <form action="#" method="post" id="reply-form">
-                <?php if ($posts['thread']->getPostId() !== null): ?>
-                    <input type="hidden" name="postId" value="<?= $posts['thread']->getPostId() ?>" placeholder="ID"><br>
-                <?php endif; ?>
+                <input type="hidden" name="postId" value="<?= $posts['thread']['post_id'] ?>" placeholder="ID">
                 <div class="fixed-reply-area">
                     <p class="text-end"><a href="#" id="jumpBottom" style="display:none;"><i class="fa-solid fa-down-long"></i> &nbsp; 新しいメッセージがあります &nbsp;<i class="fa-solid fa-exclamation"></i> &nbsp;</a></p>
-                    <div class="custom-border bg-white  box-shodow">
+                    <div class="custom-border bg-white">
                         <div class="mx-3 mt-3 mb-1 d-flex">
                             <p>コメント&nbsp;&nbsp;</p>
                             <p id="reply_comment_count" class="text-secondary">0/400</p>
                         </div>
                         <div class="mx-3 my-1">
-                            <textarea id="reply_textarea" name="content" placeholder="コメントを入力してください" minlength="1" maxlength="400" onkeyup="ShowLength('reply_comment_count', value, 400);"></textarea>
+                            <textarea id="reply_textarea" name="content" placeholder="コメントを入力する" minlength="1" maxlength="400" onkeyup="ShowLength('reply_comment_count', value, 400);"></textarea>
                         </div>
                         <div class="mx-3 d-flex justify-content-between">
                             <div class="d-flex align-items-center">
@@ -54,8 +38,7 @@
 </div>
 
 <script>
-    const threadId = String(<?php echo json_encode($posts['thread']->getPostId()); ?>);
-    const replies = <?php echo json_encode($posts['replies']); ?>;
+    const posts = <?php echo json_encode($posts); ?>;
 </script>
 <script src="../Public/js/autobahn.js"></script>
 <script src="../Public/js/app_thread.js"></script>

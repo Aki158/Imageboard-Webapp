@@ -9,14 +9,14 @@
                         <p id="title_count" class="text-secondary">0/50</p>
                     </div>
                     <div class="mx-3">
-                        <input id="title" type="text" name="subject" size="30" maxlength="50" placeholder="入力して下さい(任意)" onkeyup="ShowLength('title_count', value, 50);">
+                        <input id="title" type="text" name="subject" size="30" maxlength="50" placeholder="タイトルを入力する(任意)" onkeyup="ShowLength('title_count', value, 50);">
                     </div>
                     <div class="mx-3 mt-3 mb-1 d-flex">
                         <p>コメント&nbsp;&nbsp;</p>
                         <p id="comment_count" class="text-secondary">0/400</p>
                     </div>
                     <div class="mx-3 mb-2">
-                        <textarea id="new_thread_textarea" name="content" placeholder="入力してください" minlength="1" maxlength="400" onkeyup="ShowLength('comment_count', value, 400);"></textarea>
+                        <textarea id="new_thread_textarea" name="content" placeholder="コメントを入力する" minlength="1" maxlength="400" onkeyup="ShowLength('comment_count', value, 400);"></textarea>
                     </div>
                     <div class="mx-3 d-flex">
                         <button id="upload_file" type="button" onclick="imageSelect('upload_file_none')"><i class="fa-solid fa-image"></i> 画像</button>
@@ -32,5 +32,5 @@
     </div>
 </div>
 
-<script src="../../Public/js/app_newThread.js"></script>
-<script src="../../Public/js/app.js"></script>
+<script src="Public/js/app_newThread.js"></script>
+<script src="Public/js/app.js"></script>

@@ -116,10 +116,10 @@ class ValidationHelper
             $validateFlag = false;
 
             if ($type !== ValueType::NULL) {
-                if($field === 'subject' && mb_strlen($data[$field]) >= 50){
-                    throw new \InvalidArgumentException("タイトルは、50文字以内で入力してください");
+                if($field === 'subject' && mb_strlen($data[$field]) > 50){
+                    throw new \InvalidArgumentException("タイトルは、50文字以下で入力してください");
                 }
-                else if($field === 'content' && ($data[$field] === '' || mb_strlen($data[$field]) >= 400)){
+                else if($field === 'content' && ($data[$field] === '' || mb_strlen($data[$field]) > 400)){
                     $errorMessage .= "・コメント : 1~400文字で入力してください\n";
                     $validateFlag = true;
                 }

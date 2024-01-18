@@ -3,17 +3,19 @@
         "psr-4": {
             "Commands\\": "Commands/",
             "Database\\": "Database/",
+            "Design\\": "Design/",
+            "Dummies\\": "Dummies/",
             "Exceptions\\": "Exceptions/",
             "Helpers\\": "Helpers/",
             "Images\\": "Images/",
-            "WebSocket\\": "WebSocket",
             "Models\\": "Models/",
             "Public\\": "Public/",
             "Response\\": "Response/",
             "Routing\\": "Routing/",
             "Thumbnails\\": "Thumbnails/",
             "Types\\": "Types/",
-            "Views\\": "Views/"
+            "Views\\": "Views/",
+            "WebSocket\\": "WebSocket"
         }
     },
     "require": {
