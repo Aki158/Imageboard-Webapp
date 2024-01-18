@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../Public/css/style.css">
 
     <title>PixaThread</title>
-    <div class="fixed-header bg-green">
-        <div class="container d-flex justify-content-between">
+    <div class="fixed-header bg-blue">
+        <div class="container d-flex justify-content-around">
             <h3 class="py-3 text-light">PixaThread</h3>
             <div class="d-flex justify-content-between">
                 <a href="../newThread" class="responsive-new-thread btn btn-light m-3"><i class="fa-solid fa-plus"></i> ポスト</a>

@@ -11,14 +11,6 @@ class PostDAOImpl implements PostDAO
 {
     private ?int $post_id = null;
 
-    public function getCreateOrUpdateId(): ?int {
-        return $this->post_id;
-    }
-
-    public function setCreateOrUpdateId(int $id): void {
-        $this->post_id = $id;
-    }
-
     public function create(Post $postData): bool
     {
         if($postData->getPostId() !== null) throw new \Exception('Cannot create a post with an existing ID. id: ' . $postData->getPostId());
@@ -159,4 +151,11 @@ class PostDAOImpl implements PostDAO
         return $post === null ? null : $this->resultToPost($post);
     }
 
+    public function getCreateOrUpdateId(): ?int {
+        return $this->post_id;
+    }
+
+    public function setCreateOrUpdateId(int $id): void {
+        $this->post_id = $id;
+    }
 }

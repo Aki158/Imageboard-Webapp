@@ -36,25 +36,11 @@ abstract class AbstractCommand implements Command
 
         $shellArgs = [];
 
-        // debug_memo
-        // isset()関数
-        // 変数が設定されており、かつ NULL ではないかどうかを確認するために使用されます。
-        // これは、変数が存在すること、そしてそれが何らかの値を持っていること（NULL 以外）
-        // を検証するのに役立ちます。
-
         // メインコマンドの値である初期値を取得
         if(!isset($args[$startIndex]) || ($args[$startIndex][0] === '-')){
-            // debug_memo
-            // 例
-            //  "php console migrate" or "php console migrate -*(ハイフンから始まる文字列)"
-            // sprintfを出力し終了
             if($this->isCommandValueRequired()) throw new Exception(sprintf("%s's value is required.", $this->getAlias()));
         }
         else{
-            // debug_memo
-            // 例
-            //  php console migrate 9
-            // {"migrate":"9"}
             $this->argsMap[$this->getAlias()] = $args[$startIndex];
             $startIndex++;
         }
@@ -99,9 +85,6 @@ abstract class AbstractCommand implements Command
     {
         $helpString = "Command: " . static::getAlias() . (static::isCommandValueRequired()?" {value}":"") . PHP_EOL;
 
-        // debug_memo
-        // 'code-gen'なら空なのでここでreturnする
-        // 'migrate'ならここはスルーする
         $arguments = static::getArguments();
         if(empty($arguments)) return $helpString;
 
@@ -122,10 +105,6 @@ abstract class AbstractCommand implements Command
 
     public static function getAlias(): string
     {
-        // debug_memo
-        // $aliasにはCLIで'code-gen'か'migrate'コマンドが書かれるとその文字列を返す
-        // それ以外ならクラス名の'AbstractCommand'を返す
-
         // staticはselfと比べて遅延バインディングを行い、
         // 子クラスが$aliasをオーバーライドするとその値を使用します。
         // selfは常にこのクラスの値($alias = null)を使用します。
@@ -133,15 +112,9 @@ abstract class AbstractCommand implements Command
     }
 
     public static function isCommandValueRequired(): bool{
-        // debug_memo
-        // 現状は、'code-gen'をCLIに入力してたら、trueを返す
         return static::$requiredCommandValue;
     }
 
-    // debug_memo
-    // getAlias()の戻り値
-    // nullでないならgetAlias()を返す
-    // nullなら空文字を返す
     public function getCommandValue(): string{
         return $this->argsMap[static::getAlias()]??"";
     }

@@ -3,9 +3,14 @@ window.addEventListener("load", (event) => {
     const postsList = document.getElementById("home_posts_list");
     
     for (var i = 0; i < len; i++) {
-        if(posts.threads[i] !== null){
-            renderpostList(posts.threads[i], posts.replies[i], postsList);
-        }
+        renderpostList(posts.threads[i], posts.replies[i], postsList);
+    }
+    if(len === 0){
+        postsList.innerHTML = `
+        <div class="container py-4 text-center">
+            <h4>ポストされたスレッドは見つかりませんでした</h4>
+        </div>
+        `;
     }
 });
 

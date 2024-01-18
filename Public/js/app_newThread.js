@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('new-thread-form');
+    threadFormDataClear();
 
     form.addEventListener('submit', function (event) {
         // デフォルトのフォーム送信を防止します
@@ -22,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     threadFormDataClear();
                 } else if (data.status === 'error') {
                     // ユーザーにエラーメッセージを表示します
-                    console.error(data.message);
+                    console.error('Error:\n'+data.message);
                     alert(data.message);
                 }
             })
             .catch((error) => {
                 // ネットワークエラーかJSONの解析エラー
-                console.error('Error:', error);
+                console.error('Error:\n'+error);
                 alert('エラーが発生しました。\nもう一度試してください。\n'+error);
             });
     });

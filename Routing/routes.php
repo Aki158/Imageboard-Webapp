@@ -66,10 +66,21 @@ return [
         $postDao = new PostDAOImpl();
         $thread = $postDao->getThread($url);
         $replies = null;
+        $threadData = [];
         $repliesData = [];
 
         if(isset($thread)){
             $replies = $postDao->getReplies($thread, 0, 100);
+
+            $threadData = [
+                "post_id" => $thread->getPostId(),
+                "subject" => htmlspecialchars($thread->getSubject()),
+                "content" => nl2br(htmlspecialchars($thread->getContent())),
+                "image_path" => $thread->getImagePath(),
+                "thumbnail_path" => $thread->getThumbnailPath(),
+                "url" => $thread->getUrl(),
+                "created_at" => $thread->getTimeStamp()->getCreatedAt()                
+            ];
         }
 
         foreach($replies as $reply){
@@ -82,7 +93,7 @@ return [
         }
 
         $posts = [
-            "thread" => $thread,
+            "thread" => $threadData,
             "replies" => $repliesData
         ];
 
@@ -104,11 +115,9 @@ return [
             ];
 
             // スレッドへの返信は、contentとfileのどちらかの入力が必須
-            // contentが空文字 かつ filenameが空文字でない
             if($content === '' && $filename !== ''){
                 $required_fields['content'] = ValueType::NULL;
             }
-            // contentが空文字でない かつ filenameが空文字
             else if($content !== '' && $filename === ''){
                 $required_fields['file'] = ValueType::NULL;
             }
