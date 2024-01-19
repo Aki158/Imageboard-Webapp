@@ -59,7 +59,10 @@ class Seed extends AbstractCommand
         $postFileName = hash("md5",$date);
         $imagePath = $imageDirPath . "/im_" . $postFileName . "." . $fileExtension;
         $thumbnailPath = $thumbnailDirPath . "/th_" .  $postFileName . "." . $fileExtension;
-        $url = "http://localhost:8000/thread/".$postFileName;
+        // ローカル環境用
+        // $url = "http://localhost:8000/thread/".$postFileName;
+        // 本番環境用
+        $url = "https://pixathread.aki158-website.blog/thread".$postFileName;
 
         // Dummiesフォルダから画像をコピーしてImagesフォルダにおく
         if(copy($sourceFile, $imagePath)){
