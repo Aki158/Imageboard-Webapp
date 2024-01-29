@@ -87,6 +87,9 @@ class Seed extends AbstractCommand
         if((int)$retval) {
             $this->log("Failed to create thumbnail.\nstatus : $retval");
         }
+       else {
+                $this->log("Success to create thumbnail.");
+        }
 
         $pathArr = [
             "imagePath" => $imagePath,

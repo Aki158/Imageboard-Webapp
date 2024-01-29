@@ -5,6 +5,7 @@ const inputFile = document.getElementById('reply_upload_file_none');
 const body = document.body;
 const replyLimit = 100;
 const threadId = posts.thread.post_id+"";
+const replyLimitMessage = "スレッドの返信数が上限に到達しました。<br>これ以上返信はできません。";
 var replyCount = 0;
 var connStatus = false;
 var replyUserFlag = false;
@@ -33,7 +34,7 @@ window.addEventListener("load", (event) => {
 
     // 返信数が上限(返信数:100)に到達した場合
     if(replyCount >= replyLimit){
-        replyReachedLimit();
+        replyReachedLimit(replyLimitMessage);
     }
 
     for (var i = 0; i < replyCount; i++) {
@@ -93,16 +94,22 @@ jumpBottom.addEventListener('click', function(e) {
 
 // WebSocketに接続する
 function connect(){
-    // connStatusがtrueであれば、接続を切ります
+    // connStatusがtrueであれば、WebSocket接続を切ります
     if (connStatus) {
         conn.close();
         connStatus = false;
     }
 
-    conn = new ab.Session('ws://localhost:8080',
+    // 新しいWebSocketセッションを作成します
+    // ab.Session コンストラクタは、WebSocketサーバーのURLと、接続成功時、失敗時に実行するコールバック関数を引数に取ります
+    // ローカル環境用
+    // conn = new ab.Session('ws://localhost:8080',
+    // 本番環境用
+    conn = new ab.Session('wss://pixathread.aki158-website.blog/thread/*:8080',
         function() {
             connStatus = true;
 
+            // WebSocketの接続成功時に特定のトピックを購読し、メッセージが到着した際に処理を行います
             conn.subscribe(threadId, function(topic, data) {
                 var scrollStatus = isAtBottom();
 
@@ -113,7 +120,7 @@ function connect(){
                 renderReplyList(data.count, data, repliesList);
 
                 if(data.count >= replyLimit){
-                    replyReachedLimit();
+                    replyReachedLimit(replyLimitMessage);
                     if(replyUserFlag){
                         scrollToBottom();
                     }
@@ -121,7 +128,7 @@ function connect(){
 
                 // replyしたユーザーだけ自動的にページの最下部にスクロールする
                 if(replyUserFlag || scrollStatus){
-                    setTimeout(scrollToBottom, 100);
+                    setTimeout(scrollToBottom, 300);
                     replyUserFlag = false;
                 }
                 else{
@@ -131,7 +138,10 @@ function connect(){
             });
         },
         function() {
+            // WebSocketの接続が切れた場合は、メッセージを表示し入力フォームを非表示にします
             console.warn('WebSocket connection closed');
+            const connectionClosedMessage = 'ユーザーからの返信がしばらくなかったため、接続が切れました。\n返信する場合は、ページを更新してからポストしてください。';
+            replyReachedLimit(connectionClosedMessage);
         },
         {'skipSubprotocolCheck': true}
     );
@@ -186,11 +196,11 @@ function renderReplyList(index, reply, repliesList){
     }
 }
 
-// 返信数が上限(返信数:100)に到達した場合
-function replyReachedLimit(){
-    // 画面のトップにメッセージを表示する
+function replyReachedLimit(message){
+    // 画面のボトムにメッセージを表示する
     const lastMessage = document.getElementById("lastMessage");
-    lastMessage.innerHTML = "スレッドの返信数が上限に到達しました。<br>これ以上返信はできません。";
+    lastMessage.innerHTML = message;
+    alert(message);
 
     // 入力を禁止したいので、フォームを非表示に設定する
     const replyForm = document.getElementById("reply-form");
@@ -212,8 +222,10 @@ function publish(data){
     replyUserFlag = true;
 
     if(replyCount >= replyLimit){
-        replyReachedLimit();
+        replyReachedLimit(replyLimitMessage);
     }
+    // 指定されたトピック(threadId)にメッセージ(data)を送信します
+    // 具体的には、WebSocket(WebSocket/Pusher.phpのPusherクラスonPublish関数)に送信され、メッセージ(data)をトピックの購読者にブロードキャストします
     conn.publish(threadId, data);
 }
 
