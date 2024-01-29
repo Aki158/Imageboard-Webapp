@@ -10,7 +10,7 @@ use Response\Render\JSONRenderer;
 use Types\ValueType;
 
 return [
-    '' => function(): HTMLRenderer {
+    'home' => function(): HTMLRenderer {
         $postDao = new PostDAOImpl();
         $threads = $postDao->getAllThreads(0, 100);
         $threadsData = [];

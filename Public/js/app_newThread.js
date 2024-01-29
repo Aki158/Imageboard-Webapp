@@ -40,7 +40,7 @@ const inputFile = document.getElementById('upload_file_none');
 inputFile.addEventListener('change', function() {
     const reader = new FileReader();
     reader.onload = function() {
-        document.getElementById('image_select_message').innerHTML = "<i class='fa-solid fa-check'></i> ファイルが選択されました";
+        document.getElementById('image_select_message').innerHTML = "<i class='fa-solid fa-check'></i>";
     };
     reader.readAsDataURL(inputFile.files[0]);
 });
@@ -51,5 +51,5 @@ function threadFormDataClear(){
     document.getElementById('comment_count').innerHTML = '0/400';
     document.getElementById('new_thread_textarea').value = '';
     document.getElementById('upload_file_none').value = '';
-    document.getElementById('image_select_message').innerHTML = 'ファイルを選択して下さい';
+    document.getElementById('image_select_message').innerHTML = '';
 }

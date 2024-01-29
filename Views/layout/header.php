@@ -12,10 +12,10 @@
         <div class="container d-flex justify-content-around">
             <h3 class="py-3 text-light">PixaThread</h3>
             <div class="d-flex justify-content-between">
-                <a href="../newThread" class="responsive-new-thread btn btn-light m-3"><i class="fa-solid fa-plus"></i> ポスト</a>
-                <a href="../newThread" class="responsive-plus btn btn-light m-3"><i class="fa-solid fa-plus"></i></a>
-                <a href="../home" class="responsive-home btn btn-light m-3"><i class="fa-solid fa-house"></i> ホーム</a>
-                <a href="../home" class="responsive-table btn btn-light m-3"><i class="fa-solid fa-table"></i> </a>
+                <a href="/newThread" class="responsive-new-thread btn btn-light"><i class="fa-regular fa-paper-plane"></i> スレッド</a>
+                <a href="/newThread" class="responsive-small-new-thread btn btn-light"><i class="fa-regular fa-paper-plane"></i></a>
+                <a href="/home" class="responsive-home btn btn-light"><i class="fa-solid fa-house"></i> ホーム</a>
+                <a href="/home" class="responsive-small-home btn btn-light"><i class="fa-solid fa-house"></i> </a>
             </div>
         </div>
     </div>

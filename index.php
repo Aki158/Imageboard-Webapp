@@ -20,6 +20,11 @@ if (substr($path, 0, strlen($prefix)) === $prefix) {
     $path = $prefix;
 }
 
+if($path === ""){
+    header("Location: /home");
+    exit();
+}
+
 // パスがルートに存在するかチェックします
 if (isset($routes[$path])) {
     // レンダラーを作成するコールバックを呼び出します

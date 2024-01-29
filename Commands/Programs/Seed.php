@@ -62,7 +62,7 @@ class Seed extends AbstractCommand
         // ローカル環境用
         // $url = "http://localhost:8000/thread/".$postFileName;
         // 本番環境用
-        $url = "https://pixathread.aki158-website.blog/thread".$postFileName;
+        $url = "https://pixathread.aki158-website.blog/thread/".$postFileName;
 
         // Dummiesフォルダから画像をコピーしてImagesフォルダにおく
         if(copy($sourceFile, $imagePath)){
