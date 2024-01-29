@@ -34,5 +34,5 @@
     </div>
 </div>
 
-<script src="Public/js/app_newThread.js"></script>
-<script src="Public/js/app.js"></script>
+<script src="/Public/js/app_newThread.js"></script>
+<script src="/Public/js/app.js"></script>

@@ -2,10 +2,14 @@ const threadBody = document.getElementById("thread_body");
 const repliesList = document.getElementById("replies_list");
 const jumpBottom = document.getElementById('jumpBottom');
 const inputFile = document.getElementById('reply_upload_file_none');
+const form = document.getElementById('reply-form');
 const body = document.body;
 const replyLimit = 100;
 const threadId = posts.thread.post_id+"";
-const replyLimitMessage = "スレッドの返信数が上限に到達しました。<br>これ以上返信はできません。";
+const replyLimitMessage = "このスレッドは、返信数が上限に到達しました。\nこれ以上返信はできません。";
+const timer = setInterval(countUp, 1000);
+const timeoutCount = 599;
+var countSecond = 0;
 var replyCount = 0;
 var connStatus = false;
 var replyUserFlag = false;
@@ -36,14 +40,13 @@ window.addEventListener("load", (event) => {
     if(replyCount >= replyLimit){
         replyReachedLimit(replyLimitMessage);
     }
+    else{
+        form.style.display = "block";
+    }
 
     for (var i = 0; i < replyCount; i++) {
         renderReplyList(i+1, posts.replies[i], repliesList);
     }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('reply-form');
 
     form.addEventListener('submit', function (event) {
         // デフォルトのフォーム送信を防止します
@@ -112,6 +115,7 @@ function connect(){
             // WebSocketの接続成功時に特定のトピックを購読し、メッセージが到着した際に処理を行います
             conn.subscribe(threadId, function(topic, data) {
                 var scrollStatus = isAtBottom();
+                countSecond = 0;
 
                 // dataはreplyに関係するデータです
                 // 引数はそれぞれ、conn.publish(threadId, data);の引数に紐付いています
@@ -121,9 +125,6 @@ function connect(){
 
                 if(data.count >= replyLimit){
                     replyReachedLimit(replyLimitMessage);
-                    if(replyUserFlag){
-                        scrollToBottom();
-                    }
                 }
 
                 // replyしたユーザーだけ自動的にページの最下部にスクロールする
@@ -138,10 +139,13 @@ function connect(){
             });
         },
         function() {
-            // WebSocketの接続が切れた場合は、メッセージを表示し入力フォームを非表示にします
             console.warn('WebSocket connection closed');
-            const connectionClosedMessage = 'ユーザーからの返信がしばらくなかったため、接続が切れました。\n返信する場合は、ページを更新してからポストしてください。';
-            replyReachedLimit(connectionClosedMessage);
+            
+            // 返信数が上限(返信数:100)未満でタイムアウトによりWebSocketの接続が切れた場合は、メッセージを表示し入力フォームを非表示にします
+            if(replyCount < replyLimit && countSecond >= timeoutCount){
+                const connectionClosedMessage = 'ユーザーからの返信がしばらくなかったため、接続が切れました。\n返信する場合は、ページを更新してからポストしてください。';
+                replyReachedLimit(connectionClosedMessage);
+            }
         },
         {'skipSubprotocolCheck': true}
     );
@@ -197,17 +201,15 @@ function renderReplyList(index, reply, repliesList){
 }
 
 function replyReachedLimit(message){
-    // 画面のボトムにメッセージを表示する
-    const lastMessage = document.getElementById("lastMessage");
-    lastMessage.innerHTML = message;
-    alert(message);
-
     // 入力を禁止したいので、フォームを非表示に設定する
     const replyForm = document.getElementById("reply-form");
     replyForm.style.display = 'none';
 
     // フォーム用に確保していた領域をなくします
     body.style.paddingBottom = '0px';
+
+    // アラートを表示する
+    alert(message);
 }
 
 // ページの最下部にスクロールする
@@ -221,9 +223,6 @@ function publish(data){
     data.count = replyCount;
     replyUserFlag = true;
 
-    if(replyCount >= replyLimit){
-        replyReachedLimit(replyLimitMessage);
-    }
     // 指定されたトピック(threadId)にメッセージ(data)を送信します
     // 具体的には、WebSocket(WebSocket/Pusher.phpのPusherクラスonPublish関数)に送信され、メッセージ(data)をトピックの購読者にブロードキャストします
     conn.publish(threadId, data);
@@ -251,4 +250,9 @@ function adjustWidth() {
 
     var newWidth = parentWidth - parentPadding; // 親のパディングを差し引いた幅を計算
     document.querySelector('.fixed-reply-area').style.width = newWidth + 'px';
+}
+
+// 1秒ごとにカウントアップする関数
+function countUp() {
+    countSecond++;
 }

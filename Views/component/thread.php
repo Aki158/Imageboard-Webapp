@@ -6,9 +6,7 @@
                 <div id="replies_list"></div>
             </div>
             
-            <p id="lastMessage" class="mx-3 mt-3" display="none"></p>
-
-            <form action="#" method="post" id="reply-form">
+            <form action="#" method="post" id="reply-form"  style="display:none;">
                 <input type="hidden" name="postId" value="<?= $posts['thread']['post_id'] ?>" placeholder="ID">
                 <div class="fixed-reply-area">
                     <p class="text-end"><a href="#" id="jumpBottom" style="display:none;"><i class="fa-solid fa-down-long"></i> &nbsp; 新しいメッセージがあります &nbsp;<i class="fa-solid fa-exclamation"></i> &nbsp;</a></p>
@@ -40,6 +38,6 @@
 <script>
     const posts = <?php echo json_encode($posts); ?>;
 </script>
-<script src="../Public/js/autobahn.js"></script>
-<script src="../Public/js/app_thread.js"></script>
-<script src="../Public/js/app.js"></script>
+<script src="/Public/js/autobahn.js"></script>
+<script src="/Public/js/app_thread.js"></script>
+<script src="/Public/js/app.js"></script>
