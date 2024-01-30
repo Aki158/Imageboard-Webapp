@@ -185,9 +185,14 @@ https://pixathread.aki158-website.blog/
 <tr>
   <td>デーモン(常駐プログラム) : Supervisor</td>
 </tr>
+<tr>
+  <td>画像処理 : ImageMagick</td>
+</tr>
 </table>
 
 ## 🗄️ER図
+ER図の説明は、[自己参照型のERテーブル](#自己参照型のERテーブル)を確認ください。
+
 ![ER](https://github.com/Aki158/Imageboard-Webapp/assets/119317071/f383251e-2455-4bf9-9c9b-3a88c2a0aee2)
 
 ## 👀機能一覧
@@ -229,7 +234,7 @@ https://pixathread.aki158-website.blog/
 
 | 機能 | 内容 |
 | ------- | ------- |
-| 画像の保存 | アップロードされたすべての画像はサーバ側のストレージフォルダーに保存されます。<br>画像ファイル名は、PHPのhash関数を利用しています。<br>すべての画像は、画像の保存時に、サムネイルバージョンを作成します。<br>これは、ホームページやスレッドページのプレビューで使用されます。 |
+| 画像の保存 | アップロードされたすべての画像はサーバ側のストレージフォルダーに保存されます。<br>画像ファイル名は、PHPのhash関数を利用しています。<br>すべての画像は、画像の保存時にサムネイルバージョンを作成します。<br>サムネイルの作成には、ImageMagickを使用して画像ファイルを300x300 ピクセルの画像に変換してThumbnailsフォルダに保存しています。<br>これは、ホームページやスレッドページのプレビューで使用されます。<br>ImageMagickを使用している処理を確認したい場合は、[サムネイルバージョンへの画像変換処理](https://github.com/Aki158/Imageboard-Webapp/blob/d8341da5eb31839775d325bb253c70c9a70b450d/Helpers/ValidationHelper.php#L89-L96)から確認することができます。 |
 | 画像の表示 | ホームページやスレッドページで表示される画像をクリックすると、フルバージョンの画像を表示します。 |
 
 ## 📜作成の経緯
@@ -299,8 +304,66 @@ seedコマンドに関係する主要なファイルは、下記から確認す�
 
 ### WebSocketでのリアルタイム通信
 
+スレッドページでは、リアルタイムでユーザー同士が匿名でのチャットをすることができます。
 
+この機能は、主にPHPのRatchetライブラリを利用して実現させています。
 
+Ratchetライブラリは、WebSocketを介してクライアントとサーバー間のリアルタイム双方向アプリケーションを作成するためのライブラリです。
+
+WebSocketとは、Webにおいて双方向通信を低コストで行うための仕組みのことです。
+
+WebSocketに関係するファイルは、下記から確認することができます。
+
+- [app_thread.js](https://github.com/Aki158/Imageboard-Webapp/blob/main/Public/js/app_thread.js)
+- [autobahn.js](https://github.com/Aki158/Imageboard-Webapp/blob/main/Public/js/autobahn.js)
+- [chat-server.php](https://github.com/Aki158/Imageboard-Webapp/blob/main/chat-server.php)
+- [Pusher.php](https://github.com/Aki158/Imageboard-Webapp/blob/main/WebSocket/Pusher.php)
+
+#### WebSocket通信の確立から切断までの流れ
+
+WebSocket通信の基本的な流れは、下記シーケンス図の通りです。
+
+スレッドページへユーザーがアクセスすると、クライアントとWebSocket間でWebSocket Connection の確立を行います。
+
+通信が確立されると、WebSocketを利用できるようになり、ユーザー同士でのチャットが可能になります。
+
+また、多数のユーザーからアクセスされたりユーザーがページを開いたまま放置された場合、WebSocketサーバは同時に接続された状態になるため負荷がかかります。
+
+そのため、スレッドでの返信可能時間を10分と設定しています。
+
+返信可能時間になると、WebSocket Connection closed　となり、リアルタイムでのチャットができなくなります。
+
+ページを更新すると、WebSocket Connection の確立が再度行われるため、利用が可能になります。
+
+![image](https://github.com/Aki158/Imageboard-Webapp/assets/119317071/777c043e-9a99-4978-860e-5165eecc5775)
+
+#### WebSocketデータのやりとり
+
+スレッドページでユーザーがポストボタンをクリックしてからの処理について例をもとに説明します。
+
+前提条件として、クライアント1,2,3が同じスレッドページにアクセスしチャットすることとします。
+
+クライアント1がポストボタンをクリックして返信した場合、下記のような順番に処理されます。
+
+![image](https://github.com/Aki158/Imageboard-Webapp/assets/119317071/4684a753-4b93-426f-b2da-812505bd4351)
+
+1. リクエスト(クライアント1→サーバ)<br>fetchを使用して、入力フォームのデータをサーバへ送信します。<br>サーバは、入力データをチェックし問題なければ、データベースへデータを登録します。
+2. レスポンス(サーバ→クライアント1)<br>クライアントへ処理が完了したことを通知します。<br>この時、クライアント2,3と共有したいデータも一緒に送信されます。
+3. リクエスト(クライアント1→WebSocketサーバ)<br>取得したデータをWebSocketサーバへ送信します。
+4. レスポンス(WebSocketサーバ→各クライアント)<br>スレッドページを利用している全てのユーザーへクライアント1が送信したデータを共有します。<br>共有されたデータをもとにクライアントは、JavaScriptでページに反映させます。
+
+#### WebSocketサーバの常時稼働
+
+WebSocketサーバは、loalhost:8080を使用しています。
+
+これは、アプリケーションのプロセスとは別で起動させておく必要があるためSupervisorを利用しました。
+
+Supervisorは、他のプロセスを起動し、それらが実行され続けるようにするデーモン(常駐プログラム)です。
+
+何らかの理由で長時間稼働しているRatchetアプリケーションが停止した場合、Supervisorデーモンがすぐに起動し直すように動いてくれます。
+
+Supervisorは、[chat-server.php](https://github.com/Aki158/Imageboard-Webapp/blob/main/chat-server.php)
+を実行することで、loalhost:8080をWebSocketサーバとして稼働させています。
 
 ## 📮今後の実装したいもの
 - [ ] 編集機能
