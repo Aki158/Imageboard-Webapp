@@ -1,5 +1,7 @@
 # Imageboard-Webapp
-🗣️スレッドを通じて匿名でチャットができるWebアプリケーション
+
+## 🌱概要
+スレッドを通じて匿名でチャットができるWebアプリケーション
 
 ## 🏠URL
 https://pixathread.aki158-website.blog/
